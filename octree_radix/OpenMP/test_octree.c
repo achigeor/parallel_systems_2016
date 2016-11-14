@@ -2,15 +2,18 @@
 #include "stdlib.h"
 #include "sys/time.h"
 #include "utils.h"
+#include "omp.h"
 
 #define DIM 3
+
+THREADS = 8;
 
 int main(int argc, char** argv){
 
   // Time counting variables 
   struct timeval startwtime, endwtime;
 
-  if (argc != 6) { // Check if the command line arguments are correct 
+  if (argc != 6) { // Check if the command line arguments are correct
     printf("Usage: %s N dist pop rep P\n"
 	   "where\n"
 	   "N    : number of points\n"
@@ -45,6 +48,8 @@ int main(int argc, char** argv){
     index[i] = i;
   }
 
+  omp_set_num_threads(THREADS);
+
   /* Generate a 3-dimensional data distribution */
   create_dataset(X, N, dist);
 
@@ -54,7 +59,6 @@ int main(int argc, char** argv){
   find_min(min, X, N);
 
   int nbins = (1 << maxlev); // maximum number of boxes at the leaf level
-
   // Independent runs
   for(int it = 0; it<repeat; it++){
 
@@ -147,8 +151,3 @@ int main(int argc, char** argv){
   free(index);
   free(level_record);
 }
-
-
-
-
-

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.6)
-project(Pthreads)
+project(01parallila)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
@@ -14,4 +14,4 @@ set(SOURCE_FILES
     utils.h
     verification.c)
 
-add_executable(Pthreads ${SOURCE_FILES})
+add_executable(01parallila ${SOURCE_FILES})
