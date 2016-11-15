@@ -18,6 +18,7 @@ void quantize(unsigned int *codes, float *X, float *low, float step, int N) {
     int i = 0;
     int j = 0;
     int pos = 0;
+    int thr=0;
     #pragma omp parallel private(i, j, pos)
     {
     #pragma omp for schedule(guided)

@@ -1,6 +1,7 @@
 #include "stdio.h"
 #include "stdlib.h"
 #include <string.h>
+#include <omp.h>
 
 #define MAXBINS 8
 
@@ -85,6 +86,7 @@ void truncated_radix_sort(unsigned long int *morton_codes,
         int size=0;
 #pragma omp parallel shared(morton_codes, sorted_morton_codes, permutation_vector) private(i, offset, size)
         {
+
             #pragma omp for schedule(guided)
             /* Call the function recursively to split the lower levels */
             for (i = 0; i < MAXBINS; i++) {

@@ -13,14 +13,15 @@ int main(int argc, char** argv){
   // Time counting variables 
   struct timeval startwtime, endwtime;
 
-  if (argc != 6) { // Check if the command line arguments are correct
-    printf("Usage: %s N dist pop rep P\n"
+  if (argc < 6) { // Check if the command line arguments are correct
+    printf("Usage: %s N dist pop rep L THREADS\n"
 	   "where\n"
 	   "N    : number of points\n"
 	   "dist : distribution code (0-cube, 1-sphere)\n"
 	   "pop  : population threshold\n"
 	   "rep  : repetitions\n"
-	   "L    : maximum tree height.\n", argv[0]);
+	   "L    : maximum tree height\n"
+     "THREADS : number of threads used.\n", argv[0]);
     return (1);
   }
 
@@ -48,7 +49,11 @@ int main(int argc, char** argv){
     index[i] = i;
   }
 
-  omp_set_num_threads(THREADS);
+  if(argv[6]){
+    THREADS = atoi(argv[6]);
+  }
+
+  omp_set_num_threads(THREADS); //default is 8 if it is not defined while calling
 
   /* Generate a 3-dimensional data distribution */
   create_dataset(X, N, dist);
