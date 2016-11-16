@@ -1,0 +1,29 @@
+------------------------------------------------SERIAL-----------------------------------------------
+kosmas@kosmas-HP-Pavilion-15-Notebook-PC:~/ClionProjects/01parallila/Serial$ ./test_octree 33554432 0 128 4 18
+Running for 33554432 particles with maximum height: 18
+Time to compute the hash codes            : 0.554436s
+Time to compute the morton encoding       : 0.482768s
+Time for the truncated radix sort         : 11.191959s
+Time to rearrange the particles in memory : 7.012046s
+Index test PASS
+Encoding test PASS
+Time to compute the hash codes            : 1.932397s
+Time to compute the morton encoding       : 0.269368s
+Time for the truncated radix sort         : 1.055414s
+Time to rearrange the particles in memory : 0.634372s
+Index test PASS
+Encoding test PASS
+Time to compute the hash codes            : 0.266156s
+Time to compute the morton encoding       : 0.263698s
+Time for the truncated radix sort         : 1.051536s
+Time to rearrange the particles in memory : 0.635302s
+Index test PASS
+Encoding test PASS
+Time to compute the hash codes            : 0.266931s
+Time to compute the morton encoding       : 0.267282s
+Time for the truncated radix sort         : 1.060106s
+Time to rearrange the particles in memory : 0.627715s
+Index test PASS
+Encoding test PASS
+----------------------------------------------------------------------DIADES----------------------------------
+
