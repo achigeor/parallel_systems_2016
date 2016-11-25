@@ -2,9 +2,11 @@
 #include "stdlib.h"
 #include "sys/time.h"
 #include "utils.h"
+#include "omp.h"
 
 #define DIM 3
 
+THREADS = 8;
 int main(int argc, char** argv){
 
   // Time counting variables 
@@ -44,6 +46,7 @@ int main(int argc, char** argv){
   for(int i=0; i<N; i++){
     index[i] = i;
   }
+    omp_set_num_threads(THREADS);
 
   /* Generate a 3-dimensional data distribution */
   create_dataset(X, N, dist);

@@ -28,7 +28,7 @@ void morton_encoding(unsigned long int *mcodes, unsigned int *codes, int N, int 
     #pragma omp parallel shared( mcodes, codes) private(i)
     {
 
-        #pragma omp for schedule(guided) private(i)
+        #pragma omp for schedule(guided)
         for ( i=0; i < N; i++) {
             // Compute the morton codes from the hash codes using the magicbits mathod
             mcodes[i] = mortonEncode_magicbits(codes[i * DIM], codes[i * DIM + 1], codes[i * DIM + 2]);

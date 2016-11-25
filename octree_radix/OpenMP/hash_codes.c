@@ -13,13 +13,21 @@ inline unsigned int compute_code(float x, float low, float step){
 
 
 /* Function that does the quantization */
-void quantize(unsigned int *codes, float *X, float *low, float step, int N){
+void quantize(unsigned int *codes, float *X, float *low, float step, int N) {
+    int i = 0;
+    int j = 0;
+    int index;
 
-  for(int i=0; i<N; i++){
-    for(int j=0; j<DIM; j++){
-      codes[i*DIM + j] = compute_code(X[i*DIM + j], low[j], step); 
+#pragma omp parallel private(i,j,index)
+    {
+    #pragma omp for schedule(guided)
+    for (int i = 0; i < N; ++i) {
+        for (int j = 0; j < DIM; ++j) {
+            index = i * DIM +j;
+            codes[index] = compute_code(X[index], low[j], step);
+        }
     }
-  }
+    }
 
 }
 
