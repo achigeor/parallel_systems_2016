@@ -14,14 +14,14 @@ int main(int argc, char** argv){
   struct timeval startwtime, endwtime;
 
   if (argc < 6) { // Check if the command line arguments are correct
-    printf("Usage: %s N dist pop rep L THREADS\n"
+    printf("Usage: %s N dist pop rep L threads\n"
 	   "where\n"
 	   "N    : number of points\n"
 	   "dist : distribution code (0-cube, 1-sphere)\n"
 	   "pop  : population threshold\n"
 	   "rep  : repetitions\n"
 	   "L    : maximum tree height\n"
-     "THREADS : number of threads used.\n", argv[0]);
+     "threads : number of threads used.\n", argv[0]);
     return (1);
   }
 

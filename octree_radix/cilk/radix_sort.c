@@ -1,10 +1,11 @@
 #include "stdio.h"
 #include "stdlib.h"
+#include "utils.h"
 #include <string.h>
 #include <cilk/cilk.h>
+#include "cilk/cilk_api.h"
 
 #define MAXBINS 8
-
 
 inline void swap_long(unsigned long int **x, unsigned long int **y){
 
@@ -82,12 +83,18 @@ void truncated_radix_sort(unsigned long int *morton_codes,
     //swap the code pointers 
     swap_long(&morton_codes, &sorted_morton_codes);
 
+    int i;
+
     /* Call the function recursively to split the lower levels */
-    cilk_for (int i=0; i<MAXBINS; i++){
+    __cilkrts_init();
+    //__cilkrts_end_cilk();
+    __cilkrts_set_param("nworkers",nthreads);
+
+    cilk_for (i=0; i<MAXBINS; i++){
       int offset = (i>0) ? BinSizes[i-1] : 0;
       int size = BinSizes[i] - offset;
-      
-      truncated_radix_sort(&morton_codes[offset], 
+
+      truncated_radix_sort(&morton_codes[offset],
 			   &sorted_morton_codes[offset], 
 			   &permutation_vector[offset], 
 			   &index[offset], &level_record[offset], 

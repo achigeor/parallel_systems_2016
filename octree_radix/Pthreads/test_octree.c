@@ -2,13 +2,11 @@
 #include "stdlib.h"
 #include "sys/time.h"
 #include "utils.h"
-#include <cilk/cilk.h>
-#include "cilk/cilk_api.h"
+#include <pthread.h>
 
 #define DIM 3
 
 int NUM_THREADS=5;
-char nthreads[3];
 
 int main(int argc, char** argv){
 
@@ -30,14 +28,13 @@ int main(int argc, char** argv){
   // Input command line arguments
   int N = atoi(argv[1]); // Number of points
   int dist = atoi(argv[2]); // Distribution identifier 
-  int population_threshold = atoi(argv[3]); // populatiton threshold
+  int population_threshold = atoi(argv[3]); // population threshold
   int repeat = atoi(argv[4]); // number of independent runs
   int maxlev = atoi(argv[5]); // maximum tree height
 
   if (argv[6]){
-    NUM_THREADS = atoi(argv[6]);
+    NUM_THREADS = atoi(argv[6]); //if given, set the number of threads to use. default is 5
   }
-  sprintf(nthreads, "%d", NUM_THREADS);
 
   printf("Running for %d particles with maximum height: %d\n", N, maxlev);
 
@@ -94,14 +91,13 @@ int main(int argc, char** argv){
 
     printf("Time to compute the morton encoding       : %fs\n", morton_encoding_time);
 
-
-    gettimeofday (&startwtime, NULL); 
+    gettimeofday (&startwtime, NULL);
 
     // Truncated msd radix sort
-    truncated_radix_sort(morton_codes, sorted_morton_codes, 
-			 permutation_vector, 
-			 index, level_record, N, 
-			 population_threshold, 3*(maxlev-1), 0);
+    truncated_radix_sort(morton_codes, sorted_morton_codes,
+                         permutation_vector,
+                         index, level_record, N,
+                         population_threshold, 3*(maxlev-1), 0);
 
     gettimeofday (&endwtime, NULL);
 

@@ -1,5 +1,5 @@
+/*number of threads for every function -- global variable*/
 extern int NUM_THREADS;
-extern char nthreads[3];
 
 /* datasets.c */
 void create_dataset(float *X, int N, int dist);
@@ -20,18 +20,18 @@ float max_range(float *x);
 void morton_encoding(unsigned long int *mcodes, unsigned int *codes, int N, int max_level);
 unsigned int compute_code(float x, float low, float step);
 
+
 /* radix_sort.c */
-void truncated_radix_sort(unsigned long int *morton_codes, 
-			  unsigned long int *sorted_morton_codes, 
-			  unsigned int *permutation_vector,
-			  unsigned int *index,
-			  unsigned int *level_record,
-			  int N, 
-			  int population_threshold,
-			  int sft, int lv);
+void truncated_radix_sort(unsigned long int *morton_codes,
+                          unsigned long int *sorted_morton_codes,
+                          unsigned int *permutation_vector,
+                          unsigned int *index,
+                          unsigned int *level_record,
+                          int N,
+                          int population_threshold,
+                          int sft, int lv);
 
-
-/* data rearrangment */
+/* data rearrangement */
 void data_rearrangement(float *Y, float *X, unsigned int *permutation_vector, int N);
 
 

@@ -147,8 +147,3 @@ int main(int argc, char** argv){
   free(index);
   free(level_record);
 }
-
-
-
-
-
