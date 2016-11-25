@@ -2,22 +2,28 @@
 #include "stdlib.h"
 #include "sys/time.h"
 #include "utils.h"
+#include <cilk/cilk.h>
+#include "cilk/cilk_api.h"
 
 #define DIM 3
+
+int NUM_THREADS=5;
+char nthreads[3];
 
 int main(int argc, char** argv){
 
   // Time counting variables 
   struct timeval startwtime, endwtime;
 
-  if (argc != 6) { // Check if the command line arguments are correct 
-    printf("Usage: %s N dist pop rep P\n"
+  if (argc < 6) { // Check if the command line arguments are correct
+    printf("Usage: %s N dist pop rep P thr\n"
 	   "where\n"
 	   "N    : number of points\n"
 	   "dist : distribution code (0-cube, 1-sphere)\n"
 	   "pop  : population threshold\n"
 	   "rep  : repetitions\n"
-	   "L    : maximum tree height.\n", argv[0]);
+	   "L    : maximum tree height\n"
+     "thr  : number of threads.\n", argv[0]);
     return (1);
   }
 
@@ -27,6 +33,11 @@ int main(int argc, char** argv){
   int population_threshold = atoi(argv[3]); // populatiton threshold
   int repeat = atoi(argv[4]); // number of independent runs
   int maxlev = atoi(argv[5]); // maximum tree height
+
+  if (argv[6]){
+    NUM_THREADS = atoi(argv[6]);
+  }
+  sprintf(nthreads, "%d", NUM_THREADS);
 
   printf("Running for %d particles with maximum height: %d\n", N, maxlev);
 

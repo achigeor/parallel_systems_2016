@@ -1,7 +1,6 @@
 #include "stdio.h"
 #include "stdlib.h"
 #include "math.h"
-#include "omp.h"
 
 #define DIM 3
 
@@ -23,14 +22,12 @@ inline unsigned long int mortonEncode_magicbits(unsigned int x, unsigned int y, 
 
 /* The function that transform the morton codes into hash codes */ 
 void morton_encoding(unsigned long int *mcodes, unsigned int *codes, int N, int max_level){
-    int i=0;
-#pragma omp parallel shared(mcodes, codes) private(i)
-    {
-#pragma omp for schedule(guided)
-        for (i = 0; i < N; i++) {
-            // Compute the morton codes from the hash codes using the magicbits mathod
-            mcodes[i] = mortonEncode_magicbits(codes[i * DIM], codes[i * DIM + 1], codes[i * DIM + 2]);
-        }
-    }
-
+  
+  for(int i=0; i<N; i++){
+    // Compute the morton codes from the hash codes using the magicbits mathod
+    mcodes[i] = mortonEncode_magicbits(codes[i*DIM], codes[i*DIM + 1], codes[i*DIM + 2]);
+  }
+  
 }
+
+

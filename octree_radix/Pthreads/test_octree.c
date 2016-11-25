@@ -2,31 +2,39 @@
 #include "stdlib.h"
 #include "sys/time.h"
 #include "utils.h"
+#include <pthread.h>
 
 #define DIM 3
+
+int NUM_THREADS=5;
 
 int main(int argc, char** argv){
 
   // Time counting variables 
   struct timeval startwtime, endwtime;
 
-  if (argc != 6) { // Check if the command line arguments are correct 
-    printf("Usage: %s N dist pop rep P\n"
+  if (argc < 6) { // Check if the command line arguments are correct
+    printf("Usage: %s N dist pop rep P thr\n"
 	   "where\n"
 	   "N    : number of points\n"
 	   "dist : distribution code (0-cube, 1-sphere)\n"
 	   "pop  : population threshold\n"
 	   "rep  : repetitions\n"
-	   "L    : maximum tree height.\n", argv[0]);
+	   "L    : maximum tree height\n"
+     "thr  : number of threads.\n", argv[0]);
     return (1);
   }
 
   // Input command line arguments
   int N = atoi(argv[1]); // Number of points
   int dist = atoi(argv[2]); // Distribution identifier 
-  int population_threshold = atoi(argv[3]); // populatiton threshold
+  int population_threshold = atoi(argv[3]); // population threshold
   int repeat = atoi(argv[4]); // number of independent runs
   int maxlev = atoi(argv[5]); // maximum tree height
+
+  if (argv[6]){
+    NUM_THREADS = atoi(argv[6]); //if given, set the number of threads to use. default is 5
+  }
 
   printf("Running for %d particles with maximum height: %d\n", N, maxlev);
 
@@ -83,14 +91,13 @@ int main(int argc, char** argv){
 
     printf("Time to compute the morton encoding       : %fs\n", morton_encoding_time);
 
-
-    gettimeofday (&startwtime, NULL); 
+    gettimeofday (&startwtime, NULL);
 
     // Truncated msd radix sort
-    truncated_radix_sort(morton_codes, sorted_morton_codes, 
-			 permutation_vector, 
-			 index, level_record, N, 
-			 population_threshold, 3*(maxlev-1), 0);
+    truncated_radix_sort(morton_codes, sorted_morton_codes,
+                         permutation_vector,
+                         index, level_record, N,
+                         population_threshold, 3*(maxlev-1), 0);
 
     gettimeofday (&endwtime, NULL);
 
