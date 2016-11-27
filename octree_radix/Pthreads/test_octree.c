@@ -5,6 +5,7 @@
 
 #define DIM 3
 
+
 int main(int argc, char** argv){
 
   // Time counting variables 
