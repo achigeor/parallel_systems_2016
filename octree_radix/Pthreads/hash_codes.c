@@ -9,12 +9,6 @@
 #define DIM 3
 #define THREADS 4
 
-inline unsigned int compute_code(float x, float low, float step){
-
-  return floor((x - low) / step);
-
-}
-
 
 typedef struct{
     unsigned int *codes;
@@ -24,7 +18,14 @@ typedef struct{
     int N;
 }parallel_hash_data;
 
+inline unsigned int compute_code(float x, float low, float step){
+
+  return floor((x - low) / step);
+
+}
+
 void* parallel_quantize(void* arg){
+
     parallel_hash_data *my_data = (parallel_hash_data*) arg;
     my_data = malloc((my_data->N)*sizeof(parallel_hash_data));
 
@@ -38,11 +39,12 @@ void* parallel_quantize(void* arg){
 
 }
 
-
 /* Function that does the quantization */
 void quantize(unsigned int *codes, float *X, float *low, float step, int N){
+
     // Initiliaze the static array containing the identities of threads/
-    pthread_t threads[THREADS];
+    //pthread_t threads[THREADS];
+    pthread_t *threads = malloc(THREADS*sizeof(pthread_t));
     // Declare an attribute for the above threads.
     pthread_attr_t tattr;
     void* status;
@@ -75,23 +77,7 @@ void quantize(unsigned int *codes, float *X, float *low, float step, int N){
     }
     free(hash_data);
 
-
-
-
 }
-
-
-///* Function that does the quantization */
-//void quantize(unsigned int *codes, float *X, float *low, float step, int N){
-//
-//  for(int i=0; i<N; i++){
-//    for(int j=0; j<DIM; j++){
-//      codes[i*DIM + j] = compute_code(X[i*DIM + j], low[j], step);
-//    }
-//  }
-//}
-
-
 
 float max_range(float *x){
 
