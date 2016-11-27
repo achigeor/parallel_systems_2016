@@ -2,15 +2,17 @@
 #include "stdlib.h"
 #include <pthread.h>
 #include "string.h"
+#include "utils.h"
 
 
 #define DIM 3
-#define THREADS 4
 
 typedef struct{
     int N;
     unsigned long int *mcodes;
     unsigned int *codes;
+    long start;
+    long end;
 }Codes;
 
 
@@ -33,9 +35,9 @@ inline unsigned long int mortonEncode_magicbits(unsigned int x, unsigned int y, 
 void* parallel_morton_codes(void* arg){
 
     Codes *my_codes = (Codes*) arg;
-    my_codes = malloc((my_codes->N)*sizeof(Codes));
+    //my_codes = malloc((my_codes->N)*sizeof(Codes));
 
-    for (int i = 0 ; i<my_codes->N ; ++i){
+    for (long i = my_codes->start ; i<my_codes->end ; ++i){
 
         my_codes->mcodes[i] = mortonEncode_magicbits(
                 my_codes->codes [i*DIM],
@@ -44,15 +46,16 @@ void* parallel_morton_codes(void* arg){
         );
     }
 
-    free(my_codes);
+    //free(my_codes);
     pthread_exit((void*) 0);
 }
 
 
 void morton_encoding(unsigned long int *mcodes, unsigned int *codes, int N, int max_level){
 
-    Codes *gcodes;
-    gcodes = malloc(THREADS*sizeof(Codes));
+    //Codes *gcodes;
+    //gcodes = malloc(THREADS*sizeof(Codes));
+    Codes gcodes[THREADS];
     //gcodes->mcodes=mcodes;
 
     pthread_t *threads = malloc(THREADS*sizeof(pthread_t));
@@ -70,11 +73,18 @@ void morton_encoding(unsigned long int *mcodes, unsigned int *codes, int N, int 
         (gcodes+i)->N = chunk;
 
         long start = i * chunk;
-        (gcodes + i)->codes = malloc(chunk * sizeof(unsigned int));
+        long end = (i+1) * chunk;
+        (gcodes+i)->codes = codes;
+        (gcodes+i)->mcodes = mcodes;
+        (gcodes+i)->start = start;
+        (gcodes+i)->end = end;
 
-        memcpy((gcodes + i)->codes, codes + start, chunk * sizeof(unsigned int));
 
-        pthread_create(&threads[i],&tattr,parallel_morton_codes,(gcodes+i));
+//        (gcodes + i)->codes = malloc(chunk * sizeof(unsigned int));
+//
+//        memcpy((gcodes + i)->codes, codes + start, chunk * sizeof(unsigned int));
+
+        pthread_create(&threads[i],&tattr,parallel_morton_codes,(void*)&gcodes[i]);
     }
 
     pthread_attr_destroy(&tattr);
@@ -83,6 +93,6 @@ void morton_encoding(unsigned long int *mcodes, unsigned int *codes, int N, int 
         pthread_join(threads[i], &status);
 
     }
-    free(gcodes);
+    //free(gcodes);
     free(threads);
 }

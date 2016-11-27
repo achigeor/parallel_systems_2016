@@ -2,9 +2,10 @@
 #include "stdlib.h"
 #include "string.h"
 #include "pthread.h"
+#include "utils.h"
+
 
 #define DIM 3
-#define THREADS 4
 
 typedef struct{
     float *Y;
@@ -80,7 +81,7 @@ void data_rearrangement(float *Y, float *X,
         pthread_join(threads[i], &status);
     }
     //free(data);
-
+    free(threads);
 
 
 

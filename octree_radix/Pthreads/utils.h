@@ -1,4 +1,6 @@
 
+extern long THREADS;
+
 /* datasets.c */
 void create_dataset(float *X, int N, int dist);
 

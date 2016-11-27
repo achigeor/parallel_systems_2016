@@ -5,20 +5,22 @@
 
 #define DIM 3
 
+long THREADS = 4;
 
 int main(int argc, char** argv){
 
   // Time counting variables 
   struct timeval startwtime, endwtime;
 
-  if (argc != 6) { // Check if the command line arguments are correct 
-    printf("Usage: %s N dist pop rep P\n"
+  if (argc < 6) { // Check if the command line arguments are correct
+    printf("Usage: %s N dist pop rep P thrd\n"
 	   "where\n"
 	   "N    : number of points\n"
 	   "dist : distribution code (0-cube, 1-sphere)\n"
 	   "pop  : population threshold\n"
 	   "rep  : repetitions\n"
-	   "L    : maximum tree height.\n", argv[0]);
+	   "L    : maximum tree height \n"
+       "thrd : number of threads. \n", argv[0]);
     return (1);
   }
 
@@ -28,8 +30,12 @@ int main(int argc, char** argv){
   int population_threshold = atoi(argv[3]); // populatiton threshold
   int repeat = atoi(argv[4]); // number of independent runs
   int maxlev = atoi(argv[5]); // maximum tree height
+  if (argv[6]){
+    THREADS = atoi(argv[6]); //if given, set the number of threads to use. default is 4
+  }
 
-  printf("Running for %d particles with maximum height: %d\n", N, maxlev);
+  //printf("Running for %d particles with maximum height: %d\n", N, maxlev);
+  printf("Running for %d particles with maximum height %d and %ld threads\n", N, maxlev, THREADS);
 
   float *X = (float *) malloc(N*DIM*sizeof(float));
   float *Y = (float *) malloc(N*DIM*sizeof(float));

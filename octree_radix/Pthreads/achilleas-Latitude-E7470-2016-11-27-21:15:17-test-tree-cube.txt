@@ -1,0 +1,152 @@
+Running for 1000000 particles with maximum height: 10
+Time to compute the hash codes            : 0.001553s
+Time to compute the morton encoding       : 0.002383s
+Time for the truncated radix sort         : 0.047713s
+Time to rearrange the particles in memory : 0.003574s
+Index test PASS
+Encoding test PASS
+Time to compute the hash codes            : 0.000793s
+Time to compute the morton encoding       : 0.001350s
+Time for the truncated radix sort         : 0.045112s
+Time to rearrange the particles in memory : 0.002879s
+Index test PASS
+Encoding test PASS
+Time to compute the hash codes            : 0.000694s
+Time to compute the morton encoding       : 0.001299s
+Time for the truncated radix sort         : 0.045657s
+Time to rearrange the particles in memory : 0.002863s
+Index test PASS
+Encoding test PASS
+Running for 1000000 particles with maximum height: 20
+Time to compute the hash codes            : 0.001527s
+Time to compute the morton encoding       : 0.001801s
+Time for the truncated radix sort         : 0.088005s
+Time to rearrange the particles in memory : 0.002782s
+Index test PASS
+Encoding test PASS
+Time to compute the hash codes            : 0.000839s
+Time to compute the morton encoding       : 0.001418s
+Time for the truncated radix sort         : 0.090228s
+Time to rearrange the particles in memory : 0.002757s
+Index test PASS
+Encoding test PASS
+Time to compute the hash codes            : 0.000812s
+Time to compute the morton encoding       : 0.001403s
+Time for the truncated radix sort         : 0.087272s
+Time to rearrange the particles in memory : 0.003135s
+Index test PASS
+Encoding test PASS
+Running for 1000000 particles with maximum height: 10
+Time to compute the hash codes            : 0.001546s
+Time to compute the morton encoding       : 0.002091s
+Time for the truncated radix sort         : 0.046128s
+Time to rearrange the particles in memory : 0.002953s
+Index test PASS
+Encoding test PASS
+Time to compute the hash codes            : 0.000869s
+Time to compute the morton encoding       : 0.001412s
+Time for the truncated radix sort         : 0.048397s
+Time to rearrange the particles in memory : 0.002904s
+Index test PASS
+Encoding test PASS
+Time to compute the hash codes            : 0.000828s
+Time to compute the morton encoding       : 0.001440s
+Time for the truncated radix sort         : 0.047392s
+Time to rearrange the particles in memory : 0.002762s
+Index test PASS
+Encoding test PASS
+Running for 1000000 particles with maximum height: 20
+Time to compute the hash codes            : 0.001603s
+Time to compute the morton encoding       : 0.001716s
+Time for the truncated radix sort         : 0.087909s
+Time to rearrange the particles in memory : 0.002964s
+Index test PASS
+Encoding test PASS
+Time to compute the hash codes            : 0.000856s
+Time to compute the morton encoding       : 0.001450s
+Time for the truncated radix sort         : 0.091867s
+Time to rearrange the particles in memory : 0.002838s
+Index test PASS
+Encoding test PASS
+Time to compute the hash codes            : 0.000770s
+Time to compute the morton encoding       : 0.001345s
+Time for the truncated radix sort         : 0.086228s
+Time to rearrange the particles in memory : 0.002836s
+Index test PASS
+Encoding test PASS
+Running for 2000000 particles with maximum height: 10
+Time to compute the hash codes            : 0.002756s
+Time to compute the morton encoding       : 0.003268s
+Time for the truncated radix sort         : 0.093049s
+Time to rearrange the particles in memory : 0.007588s
+Index test PASS
+Encoding test PASS
+Time to compute the hash codes            : 0.001930s
+Time to compute the morton encoding       : 0.002649s
+Time for the truncated radix sort         : 0.089538s
+Time to rearrange the particles in memory : 0.005780s
+Index test PASS
+Encoding test PASS
+Time to compute the hash codes            : 0.001906s
+Time to compute the morton encoding       : 0.002705s
+Time for the truncated radix sort         : 0.090577s
+Time to rearrange the particles in memory : 0.005731s
+Index test PASS
+Encoding test PASS
+Running for 2000000 particles with maximum height: 20
+Time to compute the hash codes            : 0.002811s
+Time to compute the morton encoding       : 0.003366s
+Time for the truncated radix sort         : 0.178128s
+Time to rearrange the particles in memory : 0.005779s
+Index test PASS
+Encoding test PASS
+Time to compute the hash codes            : 0.001503s
+Time to compute the morton encoding       : 0.002496s
+Time for the truncated radix sort         : 0.176512s
+Time to rearrange the particles in memory : 0.005750s
+Index test PASS
+Encoding test PASS
+Time to compute the hash codes            : 0.001456s
+Time to compute the morton encoding       : 0.002595s
+Time for the truncated radix sort         : 0.177024s
+Time to rearrange the particles in memory : 0.005673s
+Index test PASS
+Encoding test PASS
+Running for 2000000 particles with maximum height: 10
+Time to compute the hash codes            : 0.002788s
+Time to compute the morton encoding       : 0.003194s
+Time for the truncated radix sort         : 0.091717s
+Time to rearrange the particles in memory : 0.005450s
+Index test PASS
+Encoding test PASS
+Time to compute the hash codes            : 0.001507s
+Time to compute the morton encoding       : 0.002658s
+Time for the truncated radix sort         : 0.089708s
+Time to rearrange the particles in memory : 0.005664s
+Index test PASS
+Encoding test PASS
+Time to compute the hash codes            : 0.001411s
+Time to compute the morton encoding       : 0.002669s
+Time for the truncated radix sort         : 0.090323s
+Time to rearrange the particles in memory : 0.005769s
+Index test PASS
+Encoding test PASS
+Running for 2000000 particles with maximum height: 20
+Time to compute the hash codes            : 0.002673s
+Time to compute the morton encoding       : 0.002811s
+Time for the truncated radix sort         : 0.177747s
+Time to rearrange the particles in memory : 0.006042s
+Index test PASS
+Encoding test PASS
+Time to compute the hash codes            : 0.001683s
+Time to compute the morton encoding       : 0.002582s
+Time for the truncated radix sort         : 0.178223s
+Time to rearrange the particles in memory : 0.005678s
+Index test PASS
+Encoding test PASS
+Time to compute the hash codes            : 0.001622s
+Time to compute the morton encoding       : 0.002613s
+Time for the truncated radix sort         : 0.176422s
+Time to rearrange the particles in memory : 0.005809s
+Index test PASS
+Encoding test PASS

@@ -2,18 +2,9 @@
 #include "stdlib.h"
 #include <string.h>
 #include <pthread.h>
+#include "utils.h"
 
 #define MAXBINS 8
-#define THREADS 4
-
-void truncated_radix_sort(unsigned long int *morton_codes,
-                          unsigned long int *sorted_morton_codes,
-                          unsigned int *permutation_vector,
-                          unsigned int *index,
-                          unsigned int *level_record,
-                          int N,
-                          int population_threshold,
-                          int sft, int lv);
 
 typedef struct{
     unsigned long int *morton_codes;
@@ -123,12 +114,9 @@ void truncated_radix_sort(unsigned long int *morton_codes,
   }
   else{
       level_record[0] = lv;
-      //printf("tis manas sou to level %d\n",lv);
-
       if(lv<1){
-          //printf("mia fora kai enan kairo /n");
-          printf("tis parallel sou to level %d\n",lv);
 
+          //printf("fuck");
           // Initiliaze the static array containing
           // the identities of threads.
           pthread_t threads[THREADS];
@@ -193,7 +181,7 @@ void truncated_radix_sort(unsigned long int *morton_codes,
           // Initiliaze the static array containing
           // the threads that will be used to split the recursive calls
           // and perform them in parallel.
-          pthread_t r_threads[THREADS];
+          pthread_t r_threads[MAXBINS];
           // Declare an attribute for the above threads.
           pthread_attr_t rattr;
 
@@ -203,9 +191,9 @@ void truncated_radix_sort(unsigned long int *morton_codes,
           pthread_attr_setdetachstate(&rattr, PTHREAD_CREATE_JOINABLE);
 
 
-          recursion_data rData[THREADS];
+          recursion_data rData[MAXBINS];
 
-          for (long i = 0 ; i < THREADS ; i++ )
+          for (long i = 0 ; i < MAXBINS ; i++ )
           {
               int offset = (i>0) ? BinSizes[i-1] : 0;
               int size = BinSizes[i] - offset;
@@ -225,7 +213,7 @@ void truncated_radix_sort(unsigned long int *morton_codes,
 
           pthread_attr_destroy(&rattr);
 
-          for( long i = 0 ; i < THREADS ; i++)
+          for( long i = 0 ; i < MAXBINS ; i++)
           {
               // Join thread #threadIt .
               pthread_join( r_threads[i], &status);
@@ -234,8 +222,6 @@ void truncated_radix_sort(unsigned long int *morton_codes,
 
 
       else{
-          printf("tis serial sou to level %d\n",lv);
-
           // Find which child each point belongs to
           for(int j=0; j<N; j++){
               unsigned int ii = (morton_codes[j]>>sft) & 0x07;
@@ -278,7 +264,10 @@ void truncated_radix_sort(unsigned long int *morton_codes,
                                    sft-3, lv+1);
           }
 
-      }
+
+
+
+  }
 
 //      // Initiliaze the static array containing
 //      // the identities of threads.

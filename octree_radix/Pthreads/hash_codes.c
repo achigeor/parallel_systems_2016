@@ -4,10 +4,10 @@
 #include "float.h"
 #include "pthread.h"
 #include "string.h"
+#include "utils.h"
 
 
 #define DIM 3
-#define THREADS 4
 
 
 typedef struct{
@@ -16,6 +16,8 @@ typedef struct{
     float *low;
     float step;
     int N;
+    long start;
+    long end;
 }parallel_hash_data;
 
 inline unsigned int compute_code(float x, float low, float step){
@@ -27,15 +29,15 @@ inline unsigned int compute_code(float x, float low, float step){
 void* parallel_quantize(void* arg){
 
     parallel_hash_data *my_data = (parallel_hash_data*) arg;
-    my_data = malloc((my_data->N)*sizeof(parallel_hash_data));
+    //my_data = malloc((my_data->N)*sizeof(parallel_hash_data));
 
-    for(int i=0; i<my_data->N; i++){
+    for(long i=my_data->start; i<my_data->end; i++){
         for(int j=0; j<DIM; j++){
             my_data->codes[i*DIM + j] = compute_code(my_data->X[i*DIM + j], my_data->low[j], my_data->step);
         }
     }
 
-    free(my_data);
+    //free(my_data);
 
 }
 
@@ -55,19 +57,27 @@ void quantize(unsigned int *codes, float *X, float *low, float step, int N){
     pthread_attr_init(&tattr);
     pthread_attr_setdetachstate(&tattr, PTHREAD_CREATE_JOINABLE);
 
-    parallel_hash_data *hash_data;
-    hash_data = malloc((THREADS*sizeof(parallel_hash_data)));
+    //parallel_hash_data *hash_data;
+    //hash_data = malloc((THREADS*sizeof(parallel_hash_data)));
+    parallel_hash_data hash_data[THREADS];
     // Split the data into even chunks for every thread.
     int chunk = N / THREADS ;
 
     for (long i = 0 ; i<THREADS ; ++i) {
         (hash_data+i)->N = chunk;
         long start = i*chunk;
-        (hash_data + i)->codes = malloc(chunk * sizeof(unsigned int));
+        long end = (i+1)*chunk;
+//        (hash_data + i)->codes = malloc(chunk * sizeof(unsigned int));
+//
+//        memcpy((hash_data + i)->codes, codes + start, chunk * sizeof(unsigned int));
+        (hash_data+i)->X = X;
+        (hash_data+i)->codes = codes;
+        (hash_data+i)->low = low;
+        (hash_data+i)->step = step;
+        (hash_data+i)->start = start;
+        (hash_data+i)->end = end;
 
-        memcpy((hash_data + i)->codes, codes + start, chunk * sizeof(unsigned int));
-
-        pthread_create(&threads[i],&tattr,parallel_quantize,(hash_data+i));
+        pthread_create(&threads[i],&tattr,parallel_quantize,(void*)&(hash_data[i]));
     }
 
     pthread_attr_destroy(&tattr);
@@ -75,7 +85,8 @@ void quantize(unsigned int *codes, float *X, float *low, float step, int N){
     {
         pthread_join(threads[i], &status);
     }
-    free(hash_data);
+    //free(hash_data);
+    free(threads);
 
 }
 
