@@ -1,8 +1,18 @@
 #include "stdio.h"
 #include "stdlib.h"
-#include "math.h"
+#include <pthread.h>
+#include "string.h"
+
 
 #define DIM 3
+#define THREADS 4
+
+typedef struct{
+    int N;
+    unsigned long int *mcodes;
+    unsigned int *codes;
+}Codes;
+
 
 inline unsigned long int splitBy3(unsigned int a){
     unsigned long int x = a & 0x1fffff; // we only look at the first 21 bits
@@ -20,14 +30,59 @@ inline unsigned long int mortonEncode_magicbits(unsigned int x, unsigned int y, 
     return answer;
 }
 
-/* The function that transform the morton codes into hash codes */ 
-void morton_encoding(unsigned long int *mcodes, unsigned int *codes, int N, int max_level){
-  
-  for(int i=0; i<N; i++){
-    // Compute the morton codes from the hash codes using the magicbits mathod
-    mcodes[i] = mortonEncode_magicbits(codes[i*DIM], codes[i*DIM + 1], codes[i*DIM + 2]);
-  }
-  
+void* parallel_morton_codes(void* arg){
+
+    Codes *my_codes = (Codes*) arg;
+    my_codes = malloc((my_codes->N)*sizeof(Codes));
+
+    for (int i = 0 ; i<my_codes->N ; ++i){
+
+        my_codes->mcodes[i] = mortonEncode_magicbits(
+                my_codes->codes [i*DIM],
+                my_codes->codes [i*DIM +1],
+                my_codes->codes [i*DIM +2]
+        );
+    }
+
+    free(my_codes);
+    pthread_exit((void*) 0);
 }
 
 
+void morton_encoding(unsigned long int *mcodes, unsigned int *codes, int N, int max_level){
+
+    Codes *gcodes;
+    gcodes = malloc(THREADS*sizeof(Codes));
+    //gcodes->mcodes=mcodes;
+
+    pthread_t *threads = malloc(THREADS*sizeof(pthread_t));
+    //pthread_t threads[THREADS];
+    pthread_attr_t tattr;
+    void* status;
+    long i;
+
+    pthread_attr_init(&tattr);
+    pthread_attr_setdetachstate(&tattr, PTHREAD_CREATE_JOINABLE);
+
+    int chunk = N / THREADS;
+
+    for (i = 0 ; i<THREADS ; ++i) {
+        (gcodes+i)->N = chunk;
+
+        long start = i * chunk;
+        (gcodes + i)->codes = malloc(chunk * sizeof(unsigned int));
+
+        memcpy((gcodes + i)->codes, codes + start, chunk * sizeof(unsigned int));
+
+        pthread_create(&threads[i],&tattr,parallel_morton_codes,(gcodes+i));
+    }
+
+    pthread_attr_destroy(&tattr);
+    for ( i = 0; i < THREADS; ++i)
+    {
+        pthread_join(threads[i], &status);
+
+    }
+    free(gcodes);
+    free(threads);
+}

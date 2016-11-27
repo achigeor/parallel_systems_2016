@@ -70,7 +70,7 @@ int main(int argc, char** argv){
     printf("Time to compute the hash codes            : %fs\n", hash_time);
 
 
-    gettimeofday (&startwtime, NULL); 
+    gettimeofday (&startwtime, NULL);
 
     morton_encoding(morton_codes, hash_codes, N, maxlev); // computes the Morton codes of the particles
 
